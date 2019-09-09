@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import './App.css';
-import Nav from './Components/Nav/Nav';
 import routes from './routes'; 
-
+import Nav from './Components/Nav/Nav';
+import { Route } from 'react-router-dom'; 
 
 class App extends Component {
   render() {
     return (
       <div>
+        <Route path='/' component={Nav} />
         {routes}
       </div>
     )

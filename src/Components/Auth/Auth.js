@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux'; 
+import { getUserInfo } from '../../redux/reducer'; 
 
-export default class Auth extends Component {
+class Auth extends Component {
     constructor() {
         super();
 
@@ -19,17 +21,19 @@ export default class Auth extends Component {
 
     registerUser = () => {
         const { username, password } = this.state; 
-        axios.post('/auth/register', {username, password})
+        const profile_pic = `https://robohash.org/${username}.png`
+        axios.post('/auth/register', {username, password, profile_pic})
             .then(res => {
+                this.props.getUserInfo(res.data)
                 this.props.history.push('/dashboard')
             })
     };
 
     loginUser = () => {
         const { username, password } = this.state; 
-        console.log('clicked')
         axios.post('/auth/login', { username, password })
             .then( res => {
+                this.props.getUserInfo(res.data)
                 this.props.history.push('/dashboard')
             })
             .catch(err => {
@@ -58,3 +62,6 @@ export default class Auth extends Component {
         )
     }
 };
+
+
+export default connect(null, {getUserInfo})(Auth);
